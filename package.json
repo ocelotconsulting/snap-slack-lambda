@@ -6,7 +6,7 @@
   "scripts": {
     "clean": "rm dist.zip || true && rm -rf build",
     "dev": "cross-env NODE_ENV=development node app",
-    "dist": "mkdir build && npm install && npm prune --production && mv node_modules ./build && npm install && node zip.js",
+    "dist": "mkdir build && npm install && npm prune --production && mv node_modules ./build && npm install && node zip.js"
   },
   "keywords": [
     "letsencrypt",
