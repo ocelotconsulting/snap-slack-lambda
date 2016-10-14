@@ -1,6 +1,6 @@
 # Node Snap Slack (Mission Impossible Self Destruct) Slack Bot
 This Slack bot is designed to send a message as the given user in the current
-channel, and then delete it after a specified number of seconds.
+channel, and then delete it after a specified number of seconds. Great for those times where you want to say something, but are nervous that unintended message recipients might not be appropriate for what was said (or vice versa).
 
 ## Slack Setup
 1. Create a custom integration for a BOT, and note the API Token (`bot-token` in [project config](config/default.json)).
@@ -10,8 +10,10 @@ channel, and then delete it after a specified number of seconds.
 
   Then note that as `encrypted-token` in [project config](config/default.json).
 
+  In our environment, I gave the slash command the command of `/snapslack`, a description of `Deletes message after specified delay or 5 seconds` and a usage hint of `[# of seconds delay] [your temporary message]`.
+
 ## Configuration
-Modify the `./config/default.json` to have the name of your proxied lambda as
+Modify the [project config](config/default.json) to have the name of your proxied lambda (`snap-slack-lambda-name`) as
 well as team configuration(s) for slack containing the:
 * Slack team_id
 * KMS-encrypted slash command token
