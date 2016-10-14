@@ -1,5 +1,14 @@
 {
-  "snap-slack-lambda-name": "",
-  "encrypted-token": "",
-  "bot-token": ""
+  "snap-slack-lambda-name": "snap-slack-worker",
+  "teams": [
+    {
+      "team-id": "team1",
+      "encrypted-token": "encrypted1",
+      "bot-token": "bottoken1"
+    },
+    {
+      "team-id": "team2",
+      "encrypted-token": "encrypted2",
+      "bot-token": "bottoken2"
+    }]
 }

@@ -9,8 +9,8 @@ const deleteMessage = require('./src/slack/deleteMessage')
 const getUserInfo = require('./src/slack/getUserInfo')
 const sendResponse = require('./src/slack/sendResponse')
 
-const mission = (params) =>
-  getUserInfo(config['bot-token'])(params.user_id)
+const mission = (team, params) =>
+  getUserInfo(team['bot-token'])(params.user_id)
   .then((user) => {
     const textParts = params.text.split(' ')
     const defaultDelay = isNaN(textParts[0])
@@ -19,23 +19,24 @@ const mission = (params) =>
       textParts.shift()
     }
     const messageText = textParts.join(' ')
-    return sendMessage(config['bot-token'])(params.channel_id, params.user_name, user.profile.image_48, messageText)
-    .then(() => findMessage(config['bot-token'])(params.channel_id, params.user_name, messageText))
-    .then((msg) => deleteMessage(config['bot-token'])(params.channel_id, msg.ts, waitSeconds * 1000))
+    return sendMessage(team['bot-token'])(params.channel_id, params.user_name, user.profile.image_48, messageText)
+    .then(() => findMessage(team['bot-token'])(params.channel_id, params.user_name, messageText))
+    .then((msg) => deleteMessage(team['bot-token'])(params.channel_id, msg.ts, waitSeconds * 1000))
   })
 
-exports.handler = (event, context) =>
-  decrypt(new Buffer(config['encrypted-token'], 'base64'))
+exports.handler = (event, context) => {
+  const params = qs.parse(event.body)
+  const team = config['teams'].find((t) => t['team-id'] === params.team_id)
+  return decrypt(new Buffer(team['encrypted-token'], 'base64'))
   .then((data) => {
     const token = data.Plaintext.toString('ascii')
-    const params = qs.parse(event.body)
     const requestToken = params.token
     if (requestToken !== token) {
       console.error(`Request token (${requestToken}) does not match expected`)
       context.succeed('Invalid request token')
     }
     console.log('The params are: ', JSON.stringify(params))
-    return mission(params)
+    return mission(team, params)
     .then((data) => sendResponse('Successfully wiped message.'))
     .then(() => context.succeed('Successfully wiped message.'))
   })
@@ -43,3 +44,4 @@ exports.handler = (event, context) =>
     console.log('Decrypt error:', err)
     context.succeed(err.message || err)
   })
+}
