@@ -1,4 +1,4 @@
-# Node Snap Slack (Mission Impossible Self Destruct) Slack Bot
+# Node Snap Slack Bot (a la SnapChat, Mission Impossible Self Destruct, etc)
 This Slack bot is designed to send a message as the given user in the current
 channel, and then delete it after a specified number of seconds. Great for those times where you want to say something, but are nervous that unintended message recipients might not be appropriate for what was said (or vice versa).
 
